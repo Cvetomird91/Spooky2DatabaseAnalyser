@@ -159,14 +159,14 @@ int main(int argc, char* argv[]) {
     for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
         std::cout << it->first << std::endl;
 
-		std::map<std::string, std::string> file_data = it->second;
+        std::map<std::string, std::string> file_data = it->second;
 
-		for (std::map<std::string, std::string>::iterator itr = file_data.begin(); itr != file_data.end(); ++itr) {
+        for (std::map<std::string, std::string>::iterator itr = file_data.begin(); itr != file_data.end(); ++itr) {
             std::cout << itr->first << std::endl;
             std::cout << itr->second << std::endl;
-		}
+        }
 
-		std::cout << std::endl;
+        std::cout << std::endl;
 
     }
 
