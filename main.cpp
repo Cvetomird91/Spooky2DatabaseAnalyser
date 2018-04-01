@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
 
                 if (search_range_iterator) {
                     db_occurence_count++;
+                    std::cout << matching_files[i].string() << std::endl;
                 } else {
                     delete file;
                     delete frequency_data_lines;
@@ -125,8 +126,6 @@ int main(int argc, char* argv[]) {
                 }
 
                 if (search_hits > 0) {
-                    std::cout << matching_files[i].string() << std::endl;
-
                     for (std::set<std::string>::iterator it = frequency_data_lines->begin(); it != frequency_data_lines->end(); ++it) {
                         std::cout << *it << std::endl;
                     }
