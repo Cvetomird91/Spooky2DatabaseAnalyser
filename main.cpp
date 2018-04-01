@@ -52,11 +52,12 @@ int main(int argc, char* argv[]) {
     std::string search_string = argv[2];
     std::vector<directory_entry> v; // To save all the .txt file names in a vector.
     std::vector<path> matching_files;
-    std::map<std::string, std::string> *results_container = new std::map<std::string, std::string>();
+    std::map <std::string, std::map<std::string, std::string> > *results_container = new std::map <std::string, std::map<std::string, std::string> >();
 
     if(is_directory(p)) {
         copy(directory_iterator(p), directory_iterator(), back_inserter(v));
 
+        //create an array with all the .txt files
         for ( std::vector<directory_entry>::const_iterator it = v.begin(); it != v.end();  ++it )
         {
             if(!boost::filesystem::is_regular_file(it->status()))
@@ -73,13 +74,10 @@ int main(int argc, char* argv[]) {
             std::ifstream *file = new std::ifstream(matching_files[i].string());
             std::set<std::string> *frequency_data_lines = new std::set<std::string>;
             std::string current_frequency_line;
-            int search_hits = 0;
 
             //generate the regex for matching the full pathogen names and octaves
             //e.g. abdominal .*\(octave #\d\)
             boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #\\d\\)"), boost::regex_constants::perl | boost::regex::icase);
-
-            //std::cout << std::string(search_string).append(".*?\(octave #\\d\)") << std::endl;
 
             if (*file) {
 
@@ -90,7 +88,8 @@ int main(int argc, char* argv[]) {
 
                 if (search_range_iterator) {
                     db_occurence_count++;
-                    std::cout << matching_files[i].string() << std::endl;
+                    //std::cout << matching_files[i].string() << std::endl;
+                    (*results_container)[matching_files[i].string()];
                 } else {
                     delete file;
                     delete frequency_data_lines;
@@ -113,15 +112,14 @@ int main(int argc, char* argv[]) {
                     rng = boost::ifind_first(str, search_string);
 
                     if(rng) {
-                        search_hits++;
                         frequency_data_lines->insert(current_frequency_line);
+                        (*results_container)[matching_files[i].string()][current_frequency_line];
                     }
 
                     boost::smatch octave_match;
 
                     if(boost::regex_search(str, octave_match, full_name_octave)) {
 
-                        //frequency_data_lines->insert(octave_match[0]);
                         std::string line(str);
                         std::string::const_iterator start = line.begin();
                         std::string::const_iterator end = line.end();
@@ -140,22 +138,10 @@ int main(int argc, char* argv[]) {
                             flags != boost::regex_constants::match_not_bob;
                         }
 
-                        (*results_container)[current_frequency_line] = boost::algorithm::join(matches, ", ");
+                        (*results_container)[matching_files[i].string()][current_frequency_line] = boost::algorithm::join(matches, ", ");
 
-                        std::cout << boost::algorithm::join(matches, ", ") << std::endl;
                     }
 
-                }
-
-                std::cout << std::endl;
-
-                if (search_hits > 0) {
-/*
-                    for (std::set<std::string>::iterator it = frequency_data_lines->begin(); it != frequency_data_lines->end(); ++it) {
-                        std::cout << *it << std::endl;
-                    }
-                    std::cout << std::endl;
-*/
                 }
 
                 delete file;
@@ -169,12 +155,21 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
 
     }
-/*
-    for (std::map<std::string, std::string>::iterator it = results_container->begin(); it != results_container->end(); ++it) {
+
+    for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
         std::cout << it->first << std::endl;
-		std::cout << it->second << std::endl;
+
+		std::map<std::string, std::string> file_data = it->second;
+
+		for (std::map<std::string, std::string>::iterator itr = file_data.begin(); itr != file_data.end(); ++itr) {
+            std::cout << itr->first << std::endl;
+            std::cout << itr->second << std::endl;
+		}
+
+		std::cout << std::endl;
+
     }
-*/
+
     delete results_container;
 
     return 0;
