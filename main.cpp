@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
             //generate the regex for matching the full pathogen names and octaves
             //e.g. abdominal .*\(octave #\d\)
-            boost::regex full_name_octave(std::string(search_string).append(" .*?\(octave #\d\)"), boost::regex_constants::perl | boost::regex::icase);
+            boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #\\d\\)"), boost::regex_constants::perl | boost::regex::icase);
 
             //std::cout << std::string(search_string).append(".*?\(octave #\\d\)") << std::endl;
 
@@ -119,17 +119,43 @@ int main(int argc, char* argv[]) {
 
                     boost::smatch octave_match;
 
-                    if(boost::regex_match(str, octave_match, full_name_octave)) {
+                    if(boost::regex_search(str, octave_match, full_name_octave)) {
+
                         //frequency_data_lines->insert(octave_match[0]);
+                        std::string line(str);
+                        std::string::const_iterator start = line.begin();
+                        std::string::const_iterator end = line.end();
+
+                        boost::regex_constants::match_flag_type flags = boost::match_default;
+                        boost::smatch match;
+
+                        std::set <std::string> matches;
+
+                        while (start < end && boost::regex_search(start, end, match, full_name_octave, flags)) {
+                            start += 1;
+
+                            matches.insert(match[0]);
+
+                            flags != boost::regex_constants::match_prev_avail;
+                            flags != boost::regex_constants::match_not_bob;
+                        }
+
+                        (*results_container)[current_frequency_line] = boost::algorithm::join(matches, ", ");
+
+                        std::cout << boost::algorithm::join(matches, ", ") << std::endl;
                     }
 
                 }
 
+                std::cout << std::endl;
+
                 if (search_hits > 0) {
+/*
                     for (std::set<std::string>::iterator it = frequency_data_lines->begin(); it != frequency_data_lines->end(); ++it) {
                         std::cout << *it << std::endl;
                     }
                     std::cout << std::endl;
+*/
                 }
 
                 delete file;
@@ -143,7 +169,12 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
 
     }
-
+/*
+    for (std::map<std::string, std::string>::iterator it = results_container->begin(); it != results_container->end(); ++it) {
+        std::cout << it->first << std::endl;
+		std::cout << it->second << std::endl;
+    }
+*/
     delete results_container;
 
     return 0;
