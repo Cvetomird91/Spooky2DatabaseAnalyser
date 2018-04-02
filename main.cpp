@@ -150,10 +150,6 @@ int main(int argc, char* argv[]) {
 
         }
 
-        std::cout << std::endl;
-        std::cout << "Number of databases, containing the match: " << db_occurence_count << std::endl;
-        std::cout << std::endl;
-
     }
 
     for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
@@ -169,6 +165,11 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
 
     }
+
+
+    std::cout << std::endl;
+    std::cout << "Number of databases, containing the match: " << db_occurence_count << std::endl;
+    std::cout << std::endl;
 
     delete results_container;
 
