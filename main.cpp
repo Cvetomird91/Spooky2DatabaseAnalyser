@@ -4,6 +4,7 @@
 #include <string>
 #include <set>
 #include <map>
+#include <chrono>
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/find.hpp>
@@ -15,9 +16,12 @@
 
 using namespace boost::filesystem;
 using namespace boost::gregorian;
+using namespace std::chrono;
+
 const boost::regex txt_filter(".*\.txt$");
 const boost::regex date_filter("[\d\.]{4,}");
 const boost::regex frequency_line(R"(^Matches found.*?(?= \())");
+
 int db_occurence_count = 0;
 
 /*
@@ -29,7 +33,6 @@ int db_occurence_count = 0;
     - 02052017
  *
  */
-
 
 void show_usage(std::string name) {
     std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
@@ -54,6 +57,13 @@ int main(int argc, char* argv[]) {
     std::vector<path> matching_files;
     std::map <std::string, std::map<std::string, std::string> > *results_container = new std::map <std::string, std::map<std::string, std::string> >();
 
+    //generate the output filename
+    system_clock::time_point point = system_clock::now();
+    auto current_time = system_clock::to_time_t(point);
+    std::cout << std::ctime(&current_time) << std::endl;
+
+    std::ofstream *output_file = new std::ofstream();
+
     if(is_directory(p)) {
         copy(directory_iterator(p), directory_iterator(), back_inserter(v));
 
@@ -77,7 +87,7 @@ int main(int argc, char* argv[]) {
 
             //generate the regex for matching the full pathogen names and octaves
             //e.g. abdominal .*\(octave #\d\)
-            boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #\\d\\)"), boost::regex_constants::perl | boost::regex::icase);
+            boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #\\d{1,}?\\)"), boost::regex_constants::perl | boost::regex::icase);
 
             if (*file) {
 
@@ -88,7 +98,6 @@ int main(int argc, char* argv[]) {
 
                 if (search_range_iterator) {
                     db_occurence_count++;
-                    //std::cout << matching_files[i].string() << std::endl;
                     (*results_container)[matching_files[i].string()];
                 } else {
                     delete file;
@@ -172,6 +181,7 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
 
     delete results_container;
+    delete output_file;
 
     return 0;
 }
