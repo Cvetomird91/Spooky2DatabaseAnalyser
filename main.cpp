@@ -24,16 +24,6 @@ const boost::regex frequency_line(R"(^Matches found.*?(?= \())");
 
 int db_occurence_count = 0;
 
-/*
- * Possible date conventions:
-    - 0505
-    - 20170505
-    - 02.05.2017
-    - 14.05.17
-    - 02052017
- *
- */
-
 void show_usage(std::string name) {
     std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
 }
@@ -87,7 +77,7 @@ int main(int argc, char* argv[]) {
 
             //generate the regex for matching the full pathogen names and octaves
             //e.g. abdominal .*\(octave #\d\)
-            boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #\\d{1,}?\\)"), boost::regex_constants::perl | boost::regex::icase);
+            boost::regex full_name_octave(std::string(search_string).append(".*?\\(octave #(\\d{1,}?)\\)"), boost::regex_constants::perl | boost::regex::icase);
 
             if (*file) {
 
