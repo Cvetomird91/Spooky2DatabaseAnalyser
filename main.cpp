@@ -13,6 +13,7 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 
 #include "DatePatterns.h"
+#include "Spooky2DatabaseAnalyser.h"
 
 using namespace boost::filesystem;
 using namespace boost::gregorian;
@@ -172,6 +173,8 @@ int main(int argc, char* argv[]) {
 
     delete results_container;
     delete output_file;
+
+    Spooky2DatabaseAnalyser *parser = new Spooky2DatabaseAnalyser(path, "asd");
 
     return 0;
 }
