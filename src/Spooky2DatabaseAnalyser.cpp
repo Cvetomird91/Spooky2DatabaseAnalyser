@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <boost/filesystem.hpp>
+#include <boost/regex.h>
 
 using namespace boost::filesystem;
 
@@ -32,11 +33,11 @@ void Spooky2DatabaseAnalyser::setTxtFiles(boost::filesystem::path p) {
 }
 
 Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, std::string search_string) : m_Path(path),  m_Search_string(search_string) {
+    this->txt_filter = boost::regex(".*\.txt$");
     this->setTxtFiles(m_Path);
     this->results_container = new std::map <std::string, std::map<std::string, std::string> >();
-    boost::regex txt_filter(".*\.txt$");
 }
 
 Spooky2DatabaseAnalyser::~Spooky2DatabaseAnalyser() {
-
+    delete this->results_container;
 }
