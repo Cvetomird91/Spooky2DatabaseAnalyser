@@ -5,6 +5,8 @@
 #include <iostream>
 
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string/find.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <boost/regex.h>
 
 using namespace boost::filesystem;
@@ -12,6 +14,7 @@ using namespace boost::filesystem;
 Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser() {}
 
 Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, std::string search_string) : m_Path(path),  m_Search_string(search_string) {
+    this->frequency_line = boost::regex(R"(^Matches found.*?(?= \())");
     this->txt_filter = boost::regex(".*\.txt$");
     this->setTxtFiles(m_Path);
     this->results_container = new std::map <std::string, std::map<std::string, std::string> >();
@@ -39,7 +42,105 @@ void Spooky2DatabaseAnalyser::setTxtFiles(boost::filesystem::path p) {
 }
 
 void Spooky2DatabaseAnalyser::gatherResults() {
+    for (unsigned int i = 0; i < this->txt_files.size(); i++) {
+        std::ifstream *file = new std::ifstream(txt_files[i].string());
+        std::set<std::string> *frequency_data_lines = new std::set<std::string>;
+        std::string current_frequency_line;
 
+        //generate the regex for matching the full pathogen names and octaves
+        //e.g. abdominal.*\(octave #\d\)
+        boost::regex full_name_octave(std::string(this->m_Search_string).append(".*?\\(octave #(\\d{1,}?)\\)"), boost::regex_constants::perl | boost::regex::icase);
+
+        if (*file) {
+
+            std::string *content = new std::string((std::istreambuf_iterator<char>(*file)), std::istreambuf_iterator<char>());
+            boost::iterator_range<std::string::const_iterator> search_range_iterator = boost::ifind_first(*content, this->m_Search_string);
+
+            delete content;
+
+            if (search_range_iterator) {
+                m_db_occurence_count++;
+                (*results_container)[this->txt_files[i].string()];
+            } else {
+                delete file;
+                delete frequency_data_lines;
+
+                continue;
+            }
+
+            file->clear();
+            file->seekg(0);
+
+            for(std::string str; std::getline(*file, str);) {
+
+                boost::smatch match;
+
+                if(boost::regex_search(str, match, frequency_line)) {
+                    current_frequency_line = match[0];
+                }
+
+                boost::iterator_range<std::string::const_iterator> rng;
+                rng = boost::ifind_first(str, m_Search_string);
+
+                if(rng) {
+                    frequency_data_lines->insert(current_frequency_line);
+                    (*results_container)[this->txt_files[i].string()][current_frequency_line];
+                }
+
+                boost::smatch octave_match;
+
+                if(boost::regex_search(str, octave_match, full_name_octave)) {
+                    std::string line(str);
+                    std::string::const_iterator start = line.begin();
+                    std::string::const_iterator end = line.end();
+
+                    boost::regex_constants::match_flag_type flags = boost::match_default;
+                    boost::smatch match;
+
+                    std::set <std::string> matches;
+
+
+                    while (start < end && boost::regex_search(start, end, match, full_name_octave, flags)) {
+                        start += 1;
+
+                        matches.insert(match[0]);
+
+                        flags != boost::regex_constants::match_prev_avail;
+                        flags != boost::regex_constants::match_not_bob;
+                    }
+
+                    (*results_container)[this->txt_files[i].string()][current_frequency_line] = boost::algorithm::join(matches, ", ");
+
+                }
+
+            }
+
+        }
+
+        delete file;
+        delete frequency_data_lines;
+
+    }
+}
+
+void Spooky2DatabaseAnalyser::outputResults() {
+    for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
+        std::cout << it->first << std::endl;
+
+        std::map<std::string, std::string> file_data = it->second;
+
+        for (std::map<std::string, std::string>::iterator itr = file_data.begin(); itr != file_data.end(); ++itr) {
+            std::cout << itr->first << std::endl;
+            std::cout << itr->second << std::endl;
+        }
+
+        std::cout << std::endl;
+
+    }
+
+    std::cout << std::endl;
+    std::cout << "Number of databases, containing the match: " << this->m_db_occurence_count << std::endl;
+    std::cout << std::endl;
 }
 
 Spooky2DatabaseAnalyser::~Spooky2DatabaseAnalyser() {
