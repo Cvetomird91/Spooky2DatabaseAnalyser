@@ -44,11 +44,6 @@ int main(int argc, char* argv[]) {
 
     path p( argc > 1 ? argv[1] : ".");
     std::string search_string = argv[2];
-    std::vector<directory_entry> v; // To save all the .txt file names in a vector.
-    std::vector<path> matching_files;
-    std::map <std::string, std::map<std::string, std::string> > *results_container = new std::map <std::string, std::map<std::string, std::string> >();
-
-    //generate the output filename
 
     Spooky2DatabaseAnalyser *parser = new Spooky2DatabaseAnalyser(p, search_string);
     parser->gatherResults();
