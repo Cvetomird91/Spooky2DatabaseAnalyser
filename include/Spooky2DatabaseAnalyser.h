@@ -26,6 +26,7 @@ class Spooky2DatabaseAnalyser
         std::vector<boost::filesystem::path> txt_files;
         std::map <std::string, std::map<std::string, std::string> > *results_container;
         int m_db_occurence_count;
+        std::vector<int> *m_mor_rates;
 
 };
 
