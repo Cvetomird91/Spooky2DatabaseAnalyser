@@ -19,6 +19,7 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, s
     this->setTxtFiles(m_Path);
     this->results_container = new std::map <std::string, std::map<std::string, std::string> >();
     this->m_mor_rates = new std::vector<int>();
+    this->m_db_occurence_count = 0;
 }
 
 void Spooky2DatabaseAnalyser::setTxtFiles(boost::filesystem::path p) {
