@@ -18,7 +18,7 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, s
     this->txt_filter = boost::regex(".*\.txt$");
     this->setTxtFiles(m_Path);
     this->results_container = new std::map <std::string, std::map<std::string, std::string> >();
-    this->m_mor_rates = new std::vector<int>();
+    this->m_mor_rates = new std::set<std::string>();
     this->m_db_occurence_count = 0;
 }
 
@@ -76,9 +76,11 @@ void Spooky2DatabaseAnalyser::gatherResults() {
             for(std::string str; std::getline(*file, str);) {
 
                 boost::smatch match;
+                int current_frequency;
 
                 if(boost::regex_search(str, match, frequency_line)) {
                     current_frequency_line = match[0];
+                    current_frequency = std::stoi(match[1]);
                 }
 
                 boost::iterator_range<std::string::const_iterator> rng;
@@ -101,11 +103,15 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 
                     std::set <std::string> matches;
 
-
                     while (start < end && boost::regex_search(start, end, match, full_name_octave, flags)) {
                         start += 1;
 
                         matches.insert(match[0]);
+
+                        //get octave and calculate MOR frequency
+                        int octave = std::stoi(match[1]);
+                        int mor_rate = octave * current_frequency;
+                        m_mor_rates->insert(std::to_string(mor_rate));
 
                         flags != boost::regex_constants::match_prev_avail;
                         flags != boost::regex_constants::match_not_bob;
@@ -140,8 +146,14 @@ void Spooky2DatabaseAnalyser::outputResults() {
 
     }
 
+    std::string total_mor_rates = boost::algorithm::join(*m_mor_rates, ", ");
+
     std::cout << std::endl;
     std::cout << "Number of databases, containing the match: " << this->m_db_occurence_count << std::endl;
+    std::cout << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "MOR rates:" << total_mor_rates << std::endl;
     std::cout << std::endl;
 }
 
