@@ -132,6 +132,15 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 }
 
 void Spooky2DatabaseAnalyser::outputResults() {
+
+    if (this->results_container->empty()) {
+        std::cout << std::endl;
+        std::cout << "Results container is empty! Exiting."<< std::endl;
+        std::cout << std::endl;
+
+        std::exit(1);
+    }
+
     for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
         std::cout << it->first << std::endl;
 
