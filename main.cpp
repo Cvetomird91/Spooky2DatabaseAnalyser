@@ -16,7 +16,6 @@
 
 using namespace boost::filesystem;
 using namespace boost::gregorian;
-using namespace std::chrono;
 
 const boost::regex txt_filter(".*\.txt$");
 const boost::regex date_filter("[\d\.]{4,}");
