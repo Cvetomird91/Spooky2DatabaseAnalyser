@@ -17,16 +17,8 @@ for file in ${TXT_FILES}; do
 done
 
 for file in ${TXT_FILES}; do
-	#occurence=$(ack -ic "(\d{4})(?=[a-z])" "${file}");
-	#echo "${file}" | perl -pe 's/(?<=[A-Za-z])(\d{2})(\d{2})(?=[A-Za-z])/$2.$3.2017/';
-	#echo "${file}:";
 	new_file_name=$( echo "${file}" | perl -pe 's/(?<=[A-Za-z])(\d{2})(\d{2})(?=[\.A-Za-z])/$1.$2.2017/');
-	echo "${file}" | perl -pe 's/(?<=[A-Za-z])(\d{2})(\d{2})(?=[\.A-Za-z])/$1.$2.2017/'
 	mv -v "${file}" "${new_file_name}";
-	#echo "${occurence}";
-	#if [ $occurence -gt 1 ]; then
-	#	echo "${file}";
-	#fi
 done
 
 for file in ${TXT_FILES}; do
