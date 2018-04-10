@@ -20,6 +20,7 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, s
     this->results_container = new std::map <std::string, std::map<std::string, std::string> >();
     this->m_mor_rates = new std::set<std::string>();
     this->m_db_occurence_count = 0;
+    this->occurence_dates = new std::vector<std::string>();
 }
 
 void Spooky2DatabaseAnalyser::setTxtFiles(boost::filesystem::path p) {
@@ -63,6 +64,7 @@ void Spooky2DatabaseAnalyser::gatherResults() {
             if (search_range_iterator) {
                 m_db_occurence_count++;
                 (*results_container)[this->txt_files[i].string()];
+                this->occurence_dates->push_back(s2dbanalyser::generate_date(this->txt_files[i].string()));
             } else {
                 delete file;
                 delete frequency_data_lines;
@@ -164,9 +166,14 @@ void Spooky2DatabaseAnalyser::outputResults() {
     std::cout << std::endl;
     std::cout << "MOR rates:" << total_mor_rates << std::endl;
     std::cout << std::endl;
+
+    for ( std::vector<std::string>::const_iterator it = this->occurence_dates->begin(); it != this->occurence_dates->end();  ++it ) {
+        std::cout << *it << std::endl;
+    }
 }
 
 Spooky2DatabaseAnalyser::~Spooky2DatabaseAnalyser() {
     delete this->results_container;
     delete this->m_mor_rates;
+    delete this->occurence_dates;
 }
