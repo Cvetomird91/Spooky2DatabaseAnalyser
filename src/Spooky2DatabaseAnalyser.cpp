@@ -13,7 +13,7 @@ using namespace boost::filesystem;
 
 Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser() {}
 
-Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, std::string search_string) : m_Path(path),  m_Search_string(search_string) {
+Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(const boost::filesystem::path &path, const std::string &search_string) : m_Path(path),  m_Search_string(search_string) {
     this->frequency_line = boost::regex(R"(^Matches found for (\d{1,}).*?(?= \())");
     this->txt_filter = boost::regex(".*\.txt$");
     this->setTxtFiles(m_Path);
@@ -23,7 +23,7 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(boost::filesystem::path path, s
     this->occurence_dates = new std::vector<std::string>();
 }
 
-void Spooky2DatabaseAnalyser::setTxtFiles(boost::filesystem::path p) {
+void Spooky2DatabaseAnalyser::setTxtFiles(const boost::filesystem::path &p) {
     if (is_directory(p)) {
         std::vector<directory_entry> v;
         copy(directory_iterator(p), directory_iterator(), back_inserter(v));

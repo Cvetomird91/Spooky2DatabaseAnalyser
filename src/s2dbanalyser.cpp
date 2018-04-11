@@ -8,7 +8,7 @@
 
 //utilities class with static method members
 
-std::string s2dbanalyser::generate_date(std::string filename) {
+std::string s2dbanalyser::generate_date(const std::string &filename) {
     boost::regex date(R"((\d{2})\.(\d{2})\.(\d{4}))");
 
     boost::smatch match;

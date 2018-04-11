@@ -7,7 +7,7 @@
 class s2dbanalyser
 {
     public:
-        static std::string generate_date(std::string filename);
+        static std::string generate_date(const std::string &filename);
 
 };
 
