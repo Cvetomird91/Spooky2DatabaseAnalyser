@@ -16,8 +16,8 @@ std::string s2dbanalyser::generate_date(std::string filename) {
     std::ostringstream ss;
 
     if (boost::regex_search(filename, match, date)) {
-        d = boost::gregorian::date(std::stoi(match[2]), std::stoi(match[1]), std::stoi(match[0]));
-        ss << d.day() << ' ' << d.month() << ' ' << d.year() << '\n';
+        d = boost::gregorian::date(std::stoi(match[3]), std::stoi(match[2]), std::stoi(match[1]));
+        ss << d.day() << ' ' << d.month() << ' ' << d.year();
     }
 
     return ss.str();
