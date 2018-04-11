@@ -7,6 +7,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
 #include "s2dbanalyser.h"
 
@@ -21,7 +22,7 @@ class Spooky2DatabaseAnalyser
         void gatherResults();
         void outputResults();
         boost::regex frequency_line;
-        std::vector<std::string> *occurence_dates;
+        std::vector<boost::gregorian::date> *occurence_dates;
 
     private:
         boost::filesystem::path m_Path;
