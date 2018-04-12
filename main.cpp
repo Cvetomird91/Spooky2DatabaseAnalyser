@@ -11,14 +11,10 @@
 
 using namespace boost::filesystem;
 
-void show_usage(std::string name) {
-    std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
-}
-
 int main(int argc, char* argv[]) {
 
     if (argc < 3) {
-        show_usage(argv[0]);
+        s2dbanalyser::show_usage(argv[0]);
         return 1;
     }
 

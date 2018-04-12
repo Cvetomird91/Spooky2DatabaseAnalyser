@@ -23,3 +23,7 @@ boost::gregorian::date s2dbanalyser::generate_date(const std::string &filename) 
     return d;
     //return ss.str();
 }
+
+void s2dbanalyser::show_usage(std::string name) {
+    std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
+}
