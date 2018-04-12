@@ -27,12 +27,6 @@ void show_usage(std::string name) {
     std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
 }
 
-void show_result(std::vector<path> p) {
-
-}
-
-std::vector<std::string> get_dates();
-
 int main(int argc, char* argv[]) {
 
     if (argc < 3) {
