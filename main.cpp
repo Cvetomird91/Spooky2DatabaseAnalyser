@@ -17,12 +17,6 @@
 using namespace boost::filesystem;
 using namespace boost::gregorian;
 
-const boost::regex txt_filter(".*\.txt$");
-const boost::regex date_filter("[\d\.]{4,}");
-const boost::regex frequency_line(R"(^Matches found.*?(?= \())");
-
-int db_occurence_count = 0;
-
 void show_usage(std::string name) {
     std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
 }
