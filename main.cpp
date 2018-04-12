@@ -11,11 +11,9 @@
 #include <boost/regex.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
-#include "DatePatterns.h"
 #include "Spooky2DatabaseAnalyser.h"
 
 using namespace boost::filesystem;
-using namespace boost::gregorian;
 
 void show_usage(std::string name) {
     std::cerr << "Usage: " << name << " <path> <search-string>\n" << std::endl;
