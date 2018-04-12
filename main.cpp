@@ -1,9 +1,6 @@
 #include <iostream>
 #include <iterator>
-#include <vector>
 #include <string>
-#include <set>
-#include <map>
 
 #include <boost/filesystem.hpp>
 
