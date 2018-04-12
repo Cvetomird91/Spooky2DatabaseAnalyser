@@ -128,6 +128,9 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 
         }
 
+        if(!this->occurence_dates->empty())
+            std::sort(this->occurence_dates->begin(), this->occurence_dates->end());
+
         delete file;
         delete frequency_data_lines;
 
@@ -167,11 +170,11 @@ void Spooky2DatabaseAnalyser::outputResults() {
     std::cout << std::endl;
     std::cout << "MOR rates:" << total_mor_rates << std::endl;
     std::cout << std::endl;
-/*
-    for ( std::vector<std::string>::const_iterator it = this->occurence_dates->begin(); it != this->occurence_dates->end();  ++it ) {
+
+    for ( std::vector<boost::gregorian::date>::const_iterator it = this->occurence_dates->begin(); it != this->occurence_dates->end();  ++it ) {
         std::cout << *it << std::endl;
     }
-*/
+
 }
 
 Spooky2DatabaseAnalyser::~Spooky2DatabaseAnalyser() {

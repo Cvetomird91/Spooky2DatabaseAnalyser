@@ -11,7 +11,6 @@ class s2dbanalyser
 {
     public:
         static boost::gregorian::date generate_date(const std::string &filename);
-
 };
 
 #endif // S2DBANALYSER_H
