@@ -6,10 +6,6 @@
 #include <map>
 
 #include <boost/filesystem.hpp>
-#include <boost/algorithm/string/find.hpp>
-#include <boost/algorithm/string/join.hpp>
-#include <boost/regex.hpp>
-#include <boost/date_time/gregorian/gregorian.hpp>
 
 #include "Spooky2DatabaseAnalyser.h"
 
