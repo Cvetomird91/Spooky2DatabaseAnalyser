@@ -10,7 +10,10 @@ INCLUDEPATH += . include/
 CONFIG += c++11
 
 # Input
-HEADERS += include/s2dbanalyser.h include/Spooky2DatabaseAnalyser.h
-SOURCES += main.cpp src/s2dbanalyser.cpp src/Spooky2DatabaseAnalyser.cpp
+HEADERS += include/s2dbanalyser.h include/Spooky2DatabaseAnalyser.h \
+    include/dialog.h \
+    include/ui_dialog.h
+SOURCES += main.cpp src/s2dbanalyser.cpp src/Spooky2DatabaseAnalyser.cpp \
+    src/dialog.cpp
 
 LIBS += -L/usr/include/boost -lboost_system -lboost_regex -lboost_filesystem

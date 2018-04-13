@@ -4,6 +4,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <QFileSystemModel>
+
 #include "Spooky2DatabaseAnalyser.h"
 
 using namespace boost::filesystem;
