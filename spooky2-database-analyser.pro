@@ -7,7 +7,6 @@ QT       += core gui widgets
 TEMPLATE = app
 TARGET = spooky2-database-analyser-gui
 INCLUDEPATH += . include/
-CONFIG += c++11
 
 # Input
 HEADERS += include/s2dbanalyser.h include/Spooky2DatabaseAnalyser.h
