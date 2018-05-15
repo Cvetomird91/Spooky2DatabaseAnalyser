@@ -16,6 +16,7 @@ class Spooky2DatabaseAnalyser
     public:
         Spooky2DatabaseAnalyser();
         Spooky2DatabaseAnalyser(const boost::filesystem::path &path, const std::string &search_string);
+        Spooky2DatabaseAnalyser(const std::string &path, const std::string &search_string);
         void setTxtFiles(const boost::filesystem::path &p);
         ~Spooky2DatabaseAnalyser();
         boost::regex txt_filter;

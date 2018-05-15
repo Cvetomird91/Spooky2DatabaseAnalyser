@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/find.hpp>
@@ -22,6 +23,11 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(const boost::filesystem::path &
     this->m_mor_rates = new std::set<std::string>();
     this->m_db_occurence_count = 0;
     this->occurence_dates = new std::vector<boost::gregorian::date>();
+}
+
+Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(const std::string &path, const std::string &search_string)  {
+    boost::filesystem::path boost_path = boost::filesystem::path(path);
+    Spooky2DatabaseAnalyser(boost_path, search_string);
 }
 
 void Spooky2DatabaseAnalyser::setTxtFiles(const boost::filesystem::path &p) {
