@@ -144,43 +144,10 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 }
 
 void Spooky2DatabaseAnalyser::outputResults() {
+    std::stringstream *str_stream;
+    str_stream = this->getResultsStream();
 
-    if (this->results_container->empty()) {
-        std::cout << std::endl;
-        std::cout << "Results container is empty! Exiting."<< std::endl;
-        std::cout << std::endl;
-
-        std::exit(1);
-    }
-
-    for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
-        std::cout << it->first << std::endl;
-
-        std::map<std::string, std::string> file_data = it->second;
-
-        for (std::map<std::string, std::string>::iterator itr = file_data.begin(); itr != file_data.end(); ++itr) {
-            std::cout << itr->first << std::endl;
-            std::cout << itr->second << std::endl;
-        }
-
-        std::cout << std::endl;
-
-    }
-
-    std::string total_mor_rates = boost::algorithm::join(*m_mor_rates, ", ");
-
-    std::cout << std::endl;
-    std::cout << "Number of databases, containing the match: " << this->m_db_occurence_count << std::endl;
-    std::cout << std::endl;
-
-    std::cout << std::endl;
-    std::cout << "MOR rates:" << total_mor_rates << std::endl;
-    std::cout << std::endl;
-
-    for ( std::vector<boost::gregorian::date>::const_iterator it = this->occurence_dates->begin(); it != this->occurence_dates->end();  ++it ) {
-        std::cout << *it << std::endl;
-    }
-
+    std::cout << str_stream->str();
 }
 
 //method to stream the output to a string stream
