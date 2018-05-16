@@ -34,7 +34,6 @@ class Spooky2DatabaseAnalyser
         std::map <std::string, std::map<std::string, std::string> > *results_container;
         int m_db_occurence_count;
         std::set<std::string> *m_mor_rates;
-
 };
 
 #endif // SPOOKY2DATABASEANALYSER_H

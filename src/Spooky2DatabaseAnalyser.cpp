@@ -144,10 +144,12 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 }
 
 void Spooky2DatabaseAnalyser::outputResults() {
+
     std::stringstream *str_stream;
     str_stream = this->getResultsStream();
 
     std::cout << str_stream->str();
+    delete str_stream;
 }
 
 //method to stream the output to a string stream
@@ -188,7 +190,7 @@ std::stringstream* Spooky2DatabaseAnalyser::getResultsStream() {
     *stream << std::endl;
 
     for ( std::vector<boost::gregorian::date>::const_iterator it = this->occurence_dates->begin(); it != this->occurence_dates->end();  ++it ) {
-        std::cout << *it << std::endl;
+        *stream << *it << std::endl;
     }
 
     return stream;
