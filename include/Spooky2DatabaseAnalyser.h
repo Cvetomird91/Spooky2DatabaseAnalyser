@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
@@ -18,6 +19,7 @@ class Spooky2DatabaseAnalyser
         Spooky2DatabaseAnalyser(const boost::filesystem::path &path, const std::string &search_string);
         Spooky2DatabaseAnalyser(const std::string &path, const std::string &search_string);
         void setTxtFiles(const boost::filesystem::path &p);
+        std::stringstream *getResultsStream();
         ~Spooky2DatabaseAnalyser();
         boost::regex txt_filter;
         void gatherResults();
