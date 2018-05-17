@@ -21,3 +21,4 @@ Debug/
 *.qbs.user
 *.qbs.user.*
 *.out.*
+*vgcore.*
