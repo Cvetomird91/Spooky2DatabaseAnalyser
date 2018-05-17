@@ -44,29 +44,34 @@ void button_cb(Fl_Widget *obj, void* data) {
 
     std::string search(search_string->value());
 
-    std::cout << search << std::endl;
-    std::cout << *directoryName << std::endl;
-
     //additional window
     Fl_Window* adw = new Fl_Window (10,10,600,400);
     adw->begin();
-    adw->show();
+
 
     Fl_Text_Buffer *buff = new Fl_Text_Buffer();
     Fl_Text_Display *disp = new Fl_Text_Display(40, 40, 350, 150, "Display");
     disp->buffer(buff);
 
     if (search.length() != 0) {
-        parser = new Spooky2DatabaseAnalyser(*directoryName, search);
-        parser->gatherResults();
 
-        stream = parser->getResultsStream();
+        std::cout << search << std::endl;
+        std::cout << *directoryName << std::endl;
+
+        parser = new Spooky2DatabaseAnalyser(*directoryName, search);
+        Fl::lock();
+        parser->gatherResults();
+        Fl::unlock();
+        parser->outputResults();
+
+        //stream = parser->getResultsStream();
 
         buff->text(search.c_str());
 
         delete stream;
     }
 
+    adw->show();
     adw->end();
     adw->add(disp);
 }
@@ -83,7 +88,6 @@ int main(int argc, char* argv[]) {
     button->callback((Fl_Callback*)button_cb);
 
     window->show();
-
     window->end();
 
     delete parser;
