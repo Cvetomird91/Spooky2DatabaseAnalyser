@@ -155,7 +155,7 @@ void Spooky2DatabaseAnalyser::outputResults() {
 //method to stream the output to a string stream
 std::stringstream* Spooky2DatabaseAnalyser::getResultsStream() {
 
-    std::stringstream* stream = new std::stringstream();
+    std::stringstream *stream = new std::stringstream();
 
     if (this->results_container->empty()) {
         *stream << std::endl;
