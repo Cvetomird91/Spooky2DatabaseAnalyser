@@ -19,8 +19,10 @@ using namespace boost::filesystem;
 
 Fl_Input *search_string;
 Fl_Output *output_search;
-Spooky2DatabaseAnalyser *parser;
+//Spooky2DatabaseAnalyser *parser;
 std::stringstream *stream;
+//std::string *directoryName;
+//std::string *search;
 
 void button_cb(Fl_Widget *obj, void* data) {
     obj->redraw();
@@ -30,57 +32,62 @@ void button_cb(Fl_Widget *obj, void* data) {
     native->directory( start_dir );
     native->title( "Select a directory");
 
+    std::string directoryName;
+
     native->type(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-    std::string *directoryName = new std::string();
+     //= new std::string();
 
     switch (native->show()) {
       case -1: break; //fprintf(stderr, "ERROR: %s\n", native.errmsg()); break; // ERROR
       case  1: break; //fprintf(stderr, "*** CANCEL\n"); fl_beep(); break;    // CANCEL
       default:                            // PICKED FILE
           if (native->filename())
-            *directoryName = native->filename();
+            directoryName = std::string(native->filename());
           break;
     }
 
-    std::string search(search_string->value());
+    std::string searchS = std::string(search_string->value());
 
     //additional window
     Fl_Window* adw = new Fl_Window (10,10,600,400);
-    adw->begin();
 
+    boost::filesystem::path dir = boost::filesystem::path(directoryName);
+
+    Spooky2DatabaseAnalyser *parser = new Spooky2DatabaseAnalyser(dir, searchS);
+    parser->gatherResults();
+    stream = parser->getResultsStream();
+
+    adw->begin();
 
     Fl_Text_Buffer *buff = new Fl_Text_Buffer();
     Fl_Text_Display *disp = new Fl_Text_Display(40, 40, 350, 150, "Display");
     disp->buffer(buff);
 
-    if (search.length() != 0) {
+    if (searchS.length() != 0) {
 
-        std::cout << search << std::endl;
-        std::cout << *directoryName << std::endl;
-
-        parser = new Spooky2DatabaseAnalyser(*directoryName, search);
-        Fl::lock();
-        parser->gatherResults();
-        Fl::unlock();
-        parser->outputResults();
+        std::cout << searchS << std::endl;
+        std::cout << directoryName << std::endl;
 
         //stream = parser->getResultsStream();
 
-        buff->text(search.c_str());
+        buff->text(stream->str().c_str());
 
         delete stream;
     }
 
     adw->show();
-    adw->end();
     adw->add(disp);
+    adw->end();
+
+//    delete parser;
+
 }
 
 int main(int argc, char* argv[]) {
 
-    Fl_Double_Window *window;
+    Fl_Window *window;
 
-    window = new Fl_Double_Window (640, 480);
+    window = new Fl_Window (640, 480);
     window->begin();
 
     Fl_Button* button = new Fl_Button(0, 0, 120, 40, "Open directory");
@@ -90,7 +97,6 @@ int main(int argc, char* argv[]) {
     window->show();
     window->end();
 
-    delete parser;
     delete stream;
     return(Fl::run());
 }
