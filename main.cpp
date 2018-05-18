@@ -49,7 +49,7 @@ void button_cb(Fl_Widget *obj, void* data) {
     std::string searchS = std::string(search_string->value());
 
     //additional window
-    Fl_Window* adw = new Fl_Window (10,10,600,400);
+    Fl_Window* adw = new Fl_Window (10,10,1024,768);
 
     boost::filesystem::path dir = boost::filesystem::path(directoryName);
 
@@ -60,7 +60,7 @@ void button_cb(Fl_Widget *obj, void* data) {
     adw->begin();
 
     Fl_Text_Buffer *buff = new Fl_Text_Buffer();
-    Fl_Text_Display *disp = new Fl_Text_Display(40, 40, 350, 150, "Display");
+    Fl_Text_Display *disp = new Fl_Text_Display(1, 1, 1023, 767, "Display");
     disp->buffer(buff);
 
     if (searchS.length() != 0) {
