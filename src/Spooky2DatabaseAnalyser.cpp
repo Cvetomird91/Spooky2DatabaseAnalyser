@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <map>
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/find.hpp>
@@ -26,7 +27,7 @@ Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(const boost::filesystem::path &
 }
 
 Spooky2DatabaseAnalyser::Spooky2DatabaseAnalyser(const std::string &path, const std::string &search_string)  {
-    boost::filesystem::path boost_path = boost::filesystem::path(path);
+    const boost::filesystem::path boost_path = boost::filesystem::path(path.c_str());
     Spooky2DatabaseAnalyser(boost_path, search_string);
 }
 
@@ -145,8 +146,7 @@ void Spooky2DatabaseAnalyser::gatherResults() {
 
 void Spooky2DatabaseAnalyser::outputResults() {
 
-    std::stringstream *str_stream;
-    str_stream = this->getResultsStream();
+    std::stringstream *str_stream = this->getResultsStream();
 
     std::cout << str_stream->str();
     delete str_stream;
@@ -155,14 +155,14 @@ void Spooky2DatabaseAnalyser::outputResults() {
 //method to stream the output to a string stream
 std::stringstream* Spooky2DatabaseAnalyser::getResultsStream() {
 
-    std::stringstream* stream = new std::stringstream();
+    std::stringstream *stream = new std::stringstream();
 
     if (this->results_container->empty()) {
         *stream << std::endl;
         *stream << "Results container is empty! Exiting."<< std::endl;
         *stream << std::endl;
 
-        std::exit(1);
+        return stream;
     }
 
     for (std::map <std::string, std::map<std::string, std::string> >::iterator it = results_container->begin(); it != results_container->end(); ++it) {
