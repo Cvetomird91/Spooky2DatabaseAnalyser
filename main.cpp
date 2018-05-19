@@ -46,14 +46,14 @@ void button_cb(Fl_Widget *obj, void* data) {
           break;
     }
 
-    std::string searchS = std::string(search_string->value());
+    std::string search = std::string(search_string->value());
 
     //additional window
     Fl_Window* adw = new Fl_Window (10,10,1024,768);
 
     boost::filesystem::path dir = boost::filesystem::path(directoryName);
 
-    Spooky2DatabaseAnalyser *parser = new Spooky2DatabaseAnalyser(dir, searchS);
+    Spooky2DatabaseAnalyser *parser = new Spooky2DatabaseAnalyser(dir, search);
     parser->gatherResults();
     stream = parser->getResultsStream();
 
@@ -63,9 +63,9 @@ void button_cb(Fl_Widget *obj, void* data) {
     Fl_Text_Display *disp = new Fl_Text_Display(1, 1, 1023, 767, "Display");
     disp->buffer(buff);
 
-    if (searchS.length() != 0) {
+    if (search.length() != 0) {
 
-        std::cout << searchS << std::endl;
+        std::cout << search << std::endl;
         std::cout << directoryName << std::endl;
 
         //stream = parser->getResultsStream();
