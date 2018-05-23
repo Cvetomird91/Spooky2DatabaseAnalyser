@@ -1,0 +1,17 @@
+before_install:
+    sudo apt-get install automake autotools-dev gcc make autoconf yasm nasm git wget curl libtool g++
+
+notifications:
+    email:
+        recipients:
+            - cvetomirdenchev@gmail.com
+        on_success: always
+        on_failure: always
+
+branches:
+    only: ["console-application"]
+
+language: cpp
+
+script:
+    make release
