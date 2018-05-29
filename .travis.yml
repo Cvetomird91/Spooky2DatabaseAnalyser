@@ -1,5 +1,5 @@
 before_install:
-    sudo apt-get install automake autotools-dev gcc make autoconf yasm nasm git wget curl libtool g++ libboost-all-dev
+    sudo apt-get install automake autotools-dev gcc make autoconf yasm nasm git wget curl libtool g++ libboost-all libboost-all-dev
 
 notifications:
     email:
