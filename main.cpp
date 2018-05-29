@@ -65,11 +65,6 @@ void button_cb(Fl_Widget *obj, void* data) {
 
     if (searchS.length() != 0) {
 
-        std::cout << searchS << std::endl;
-        std::cout << directoryName << std::endl;
-
-        //stream = parser->getResultsStream();
-
         buff->text(stream->str().c_str());
 
         delete stream;
@@ -79,7 +74,7 @@ void button_cb(Fl_Widget *obj, void* data) {
     adw->add(disp);
     adw->end();
 
-//    delete parser;
+    delete parser;
 
 }
 
