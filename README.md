@@ -1,0 +1,1 @@
+Simple GUI program that analyses a directory with Spooky2 scan output files and displays statistics about the hits. It uses LibBoost and FLTK. It is initially developed under Linux. Builds for Windows and macOS are coming up.
