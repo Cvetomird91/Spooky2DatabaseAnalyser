@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string/find.hpp>
