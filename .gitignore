@@ -1,6 +1,7 @@
 *.o
 Release/
 Debug/
+CMakeFiles/
 *.cbp
 *.layout
 *.depend
@@ -22,3 +23,8 @@ Debug/
 *.qbs.user.*
 *.out.*
 *vgcore.*
+
+Makefile
+cmake_install.cmake
+CMakeCache.txt
+s2dbanalyser
